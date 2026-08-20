@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anadolu Antik Kentleri — Gezi Sicili</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  color-scheme:light only;
+  --paper:#E7E8E2;
+  --card:#F3F4EF;
+  --ink:#17242A;
+  --ink-2:#57666B;
+  --rule:#C3CAC5;
+  --patina:#2C7A67;
+  --patina-soft:#DCE9E4;
+  --ochre:#8A6A1C;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --display:"Instrument Serif","Iowan Old Style",Georgia,serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.45;
+  background-image:
+    repeating-linear-gradient(115deg,transparent 0 38px,rgba(23,36,42,.035) 38px 39px),
+    repeating-linear-gradient(65deg,transparent 0 54px,rgba(23,36,42,.025) 54px 55px);
+}
+html{background:var(--paper)}
+.wrap{max-width:760px;margin:0 auto;padding:18px 14px 60px;background:var(--paper);color:var(--ink);min-height:100vh}
+
+/* ---- masthead ---- */
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2)}
+h1{font-family:var(--display);font-weight:400;font-size:38px;line-height:1;margin:6px 0 4px;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--patina)}
+.lede{font-size:13px;color:var(--ink-2);margin:0 0 16px;max-width:52ch}
+
+/* ---- trench profile (signature) ---- */
+.trench{border:1px solid var(--rule);background:var(--card);padding:11px 12px 9px;margin-bottom:14px}
+.trench-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
+.trench-hd span:first-child{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
+.trench-hd span:last-child{font-family:var(--mono);font-size:12px;font-weight:600}
+.layer{display:grid;grid-template-columns:18px 1fr 46px;gap:8px;align-items:center;margin-bottom:5px}
+.layer-k{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-2)}
+.layer-bar{height:11px;background:rgba(23,36,42,.07);position:relative;overflow:hidden}
+.layer-bar i{position:absolute;inset:0 auto 0 0;width:0;background:var(--patina);transition:width .5s cubic-bezier(.2,.7,.3,1)}
+.layer-bar::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 13px,rgba(255,255,255,.5) 13px 14px)}
+.layer-n{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);text-align:right}
+
+/* ---- controls ---- */
+.controls{position:sticky;top:0;z-index:5;background:var(--paper);padding:8px 0 9px;margin-bottom:4px;border-bottom:1px solid var(--rule)}
+input[type=search]{
+  width:100%;padding:9px 11px;border:1px solid var(--rule);background:var(--card);color:var(--ink);
+  font-family:var(--sans);font-size:14px;border-radius:0;-webkit-appearance:none;margin-bottom:7px
+}
+input[type=search]:focus{outline:2px solid var(--patina);outline-offset:-1px}
+.chips{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:0 0 auto;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 9px;border:1px solid var(--rule);background:transparent;color:var(--ink-2);cursor:pointer
+}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chips+.chips{margin-top:5px}
+
+/* ---- list ---- */
+.tier{margin-top:22px}
+.tier-hd{display:flex;align-items:baseline;gap:9px;border-bottom:1.5px solid var(--ink);padding-bottom:4px;margin-bottom:2px}
+.tier-k{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.1em}
+.tier-t{font-family:var(--display);font-size:19px}
+.tier-c{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-2)}
+.tier[data-k=S] .tier-k{color:var(--ochre)}
+
+.site{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:start;
+  padding:11px 2px;border-bottom:1px solid var(--rule)}
+.box{
+  width:22px;height:22px;margin-top:1px;border:1.5px solid var(--ink-2);background:transparent;
+  cursor:pointer;position:relative;flex:0 0 auto;padding:0
+}
+.box::after{content:"";position:absolute;left:6px;top:1px;width:6px;height:12px;
+  border:solid var(--paper);border-width:0 2px 2px 0;transform:rotate(42deg) scale(.4);opacity:0;transition:.16s}
+.site.done .box{background:var(--patina);border-color:var(--patina)}
+.site.done .box::after{opacity:1;transform:rotate(42deg) scale(1)}
+.name{font-weight:600;font-size:15px;line-height:1.25}
+.site.done .name{color:var(--ink-2);text-decoration:line-through;text-decoration-color:var(--patina);text-decoration-thickness:1.5px}
+.meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);margin-top:3px}
+.note{font-size:13px;color:var(--ink-2);margin-top:3px}
+.go{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--patina);
+  text-decoration:none;border:1px solid var(--patina);padding:4px 6px;white-space:nowrap;margin-top:1px}
+.go:active{background:var(--patina-soft)}
+
+.empty{padding:28px 4px;font-size:14px;color:var(--ink-2);border-bottom:1px solid var(--rule)}
+footer{margin-top:26px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:8px 11px;
+  border:1px solid var(--rule);background:var(--card);color:var(--ink);cursor:pointer}
+.btn:active{background:var(--patina-soft)}
+.stat{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-left:auto}
+.saved{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--patina);
+  opacity:0;transition:opacity .3s}
+.saved.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <p class="eyebrow">Saha Defteri — Türkiye</p>
+  <h1>Anadolu Antik Kentleri <em>Sicili</em></h1>
+  <p class="lede">Kalıntının ayakta olma durumu, kazı ve sunum düzeyi, tarihsel ağırlık ve ziyaret edilebilirlik dikkate alınarak dört tabakaya ayrıldı. İşaretlediklerin cihazda saklanır.</p>
+
+  <div class="trench">
+    <div class="trench-hd"><span>Kazı Profili</span><span id="pct">%0</span></div>
+    <div id="layers"></div>
+  </div>
+
+  <div class="controls">
+    <input type="search" id="q" placeholder="Kent veya il ara…" autocomplete="off">
+    <div class="chips" id="tierChips"></div>
+    <div class="chips" id="regChips"></div>
+  </div>
+
+  <div id="list"></div>
+
+  <footer>
+    <button class="btn" id="copy">Listeyi kopyala</button>
+    <button class="btn" id="reset">Sıfırla</button>
+    <span class="saved" id="saved">kaydedildi</span>
+    <span class="stat" id="stat"></span>
+    <p class="meta" id="mode" style="flex-basis:100%;margin:6px 0 0;text-transform:none;letter-spacing:.02em"></p>
+  </footer>
+</div>
+
+<script>
+const D=[
+// [ad, il, bölge, tabaka, not]
+["Efes","İzmir","Ege","S","Celsus Kütüphanesi, Yamaç Evler, Büyük Tiyatro. UNESCO."],
+["Göbeklitepe","Şanlıurfa","Güneydoğu","S","Tarımdan önce yapılmış 12 bin yıllık tapınak alanı. UNESCO."],
+["Pergamon (Bergama)","İzmir","Ege","S","Dünyanın en dik tiyatrosu, Asklepion, Kızıl Avlu. UNESCO."],
+["Aphrodisias","Aydın","Ege","S","Ayakta duran stadyum ve Sebasteion kabartmaları. UNESCO."],
+["Hierapolis","Denizli","Ege","S","Travertenlerin üstünde tiyatro ve dev nekropol. UNESCO."],
+["Troya","Çanakkale","Marmara","S","Üst üste dokuz kent katmanı. UNESCO."],
+["Nemrut Dağı","Adıyaman","Güneydoğu","S","Kommagene kral heykelleri, 2150 m. UNESCO."],
+["Hattuşa ve Yazılıkaya","Çorum","İç Anadolu","S","Hitit başkenti, Aslanlı Kapı, kaya tapınağı. UNESCO."],
+["Çatalhöyük","Konya","İç Anadolu","S","Kent yaşamının başladığı Neolitik yerleşim. UNESCO."],
+["Aspendos","Antalya","Akdeniz","S","Roma dünyasının en sağlam tiyatrosu."],
+["Perge","Antalya","Akdeniz","S","Sütunlu cadde, stadyum, anıtsal kapı."],
+["Side","Antalya","Akdeniz","S","Apollon Tapınağı ve deniz kıyısında tiyatro."],
+["Sagalassos","Burdur","Akdeniz","S","1500 m'de Antoninler Çeşmesi hâlâ akıyor."],
+["Patara","Antalya","Akdeniz","S","Lykia Birliği Meclisi, deniz feneri, kumsal. UNESCO."],
+["Xanthos ve Letoon","Antalya / Muğla","Akdeniz","S","Lykia'nın başkenti ve kutsal alanı. UNESCO."],
+["Didyma (Apollon Tapınağı)","Aydın","Ege","S","Tamamlanamamış devasa kehanet tapınağı."],
+["Ani","Kars","Doğu","S","Sınırdaki 1001 kiliseli ortaçağ başkenti. UNESCO."],
+["Arslantepe Höyüğü","Malatya","Doğu","S","Bilinen en eski saray yapısı. UNESCO."],
+["Gordion","Ankara","İç Anadolu","S","Frig başkenti ve Midas Tümülüsü. UNESCO."],
+["Zeugma","Gaziantep","Güneydoğu","S","Fırat kıyısı villa kenti; mozaikler Gaziantep'te."],
+
+["Miletos","Aydın","Ege","A","15 bin kişilik tiyatro, İon dünyasının metropolü."],
+["Priene","Aydın","Ege","A","Izgara planlı antik kentin ders kitabı örneği."],
+["Sardes","Manisa","Ege","A","Artemis Tapınağı, gymnasium ve antik sinagog."],
+["Laodikeia","Denizli","Ege","A","Geniş ölçekli restorasyon, iki tiyatro, kilise."],
+["Aizanoi","Kütahya","Ege","A","Anadolu'nun en sağlam Zeus Tapınağı, borsa yazıtı."],
+["Nysa","Aydın","Ege","A","Kütüphane binası ve tonozlu antik köprü."],
+["Magnesia","Aydın","Ege","A","Artemis Tapınağı, stadyum, süregelen kazı."],
+["Metropolis","İzmir","Ege","A","Meclis binası ve düzenli, iyi sunulmuş kazı alanı."],
+["Teos","İzmir","Ege","A","Dionysos Tapınağı, zeytinlikler içinde tiyatro."],
+["Klaros","İzmir","Ege","A","Apollon kehanet merkezi, dev heykel parçaları."],
+["Smyrna Agorası","İzmir","Ege","A","Kent merkezinde çok katlı bazilika ve bodrum galerileri."],
+["Herakleia (Latmos)","Muğla","Ege","A","Bafa Gölü kıyısında Athena Tapınağı ve kaya resimleri."],
+["Labraunda","Muğla","Ege","A","Karia'nın dağdaki teraslı kutsal alanı."],
+["Euromos","Muğla","Ege","A","Yol kenarında neredeyse eksiksiz ayakta duran tapınak."],
+["Stratonikeia","Muğla","Ege","A","Antik kentle Osmanlı köyü iç içe."],
+["Knidos","Muğla","Ege","A","Datça'nın ucunda iki limanlı kent."],
+["Kaunos","Muğla","Ege","A","Dalyan'ın karşı yakasında kaya mezarları ve tiyatro."],
+["Tlos","Muğla","Ege","A","Akropol, kaya mezarları, stadyum; Bellerophon kabartması."],
+["Assos","Çanakkale","Marmara","A","Athena Tapınağı, Midilli manzarası, Aristoteles'in okulu."],
+["Termessos","Antalya","Akdeniz","A","Dağın tepesinde, İskender'in alamadığı kent."],
+["Olympos","Antalya","Akdeniz","A","Kanyon içinde kalıntılar, yukarıda Yanartaş."],
+["Phaselis","Antalya","Akdeniz","A","Üç limanlı, çam ormanı ve kumsal arasında."],
+["Myra ve Andriake","Antalya","Akdeniz","A","Kaya mezarları, tiyatro, Aziz Nikolaos Kilisesi."],
+["Arykanda","Antalya","Akdeniz","A","Toroslarda teraslara kurulmuş, manzarası kuvvetli kent."],
+["Limyra","Antalya","Akdeniz","A","Lykia kralı Perikle'nin başkenti, kabartmalı mezarlar."],
+["Antiokheia (Pisidia)","Isparta","Akdeniz","A","Aziz Paulus'un vaaz verdiği kent, Yalvaç."],
+["Kibyra","Burdur","Akdeniz","A","Odeon zemininde Medusa mozaiği, dev stadyum."],
+["Kremna","Burdur","Akdeniz","A","Uçurum kenarına kurulmuş Roma kolonisi."],
+["Selge","Antalya","Akdeniz","A","Köyün içinde tiyatro, Köprülü Kanyon yolu üzerinde."],
+["Uzuncaburç (Diokaisareia)","Mersin","Akdeniz","A","Zeus Olbios Tapınağı ve anıtsal kapı."],
+["Elaiussa Sebaste","Mersin","Akdeniz","A","Deniz kıyısında tiyatro, hamam ve nekropol."],
+["Anavarza","Adana","Akdeniz","A","Zafer takı, mozaikler ve dik kaya kalesi."],
+["Karatepe-Aslantaş","Osmaniye","Akdeniz","A","Geç Hitit kabartmaları ve çift dilli yazıt."],
+["Antiokheia ve Seleukeia Pieria","Hatay","Akdeniz","A","Titus Tüneli, Vespasianus kaya kanalı, mozaik müzesi."],
+["Harran","Şanlıurfa","Güneydoğu","A","Kubbeli evler, kale ve Ulu Cami minaresi."],
+["Karahantepe","Şanlıurfa","Güneydoğu","A","Göbeklitepe ile aynı çağdan, kayaya oyulmuş yapılar."],
+["Zerzevan Kalesi","Diyarbakır","Güneydoğu","A","Roma sınır garnizonu ve yeraltı Mithras tapınağı."],
+["Dara","Mardin","Güneydoğu","A","Kayaya oyulmuş dev sarnıç ve nekropol."],
+["Van Kalesi / Tuşpa","Van","Doğu","A","Urartu başkenti, kaya yazıtları ve kral mezarları."],
+["Çavuştepe","Van","Doğu","A","Urartu sarayı ve düzgün taş işçilikli tapınak."],
+["Perre ve Arsameia","Adıyaman","Güneydoğu","A","Kaya mezarları ve Kommagene kabartmaları."],
+["Diyarbakır Surları ve Hevsel","Diyarbakır","Güneydoğu","A","Dünyanın en uzun ikinci suru. UNESCO."],
+["Kültepe (Kaniş-Karum)","Kayseri","İç Anadolu","A","Anadolu'nun ilk yazılı belgelerinin bulunduğu höyük."],
+["Alacahöyük","Çorum","İç Anadolu","A","Sfenksli Kapı ve Hatti kral mezarları."],
+["Midas Şehri (Yazılıkaya)","Eskişehir","İç Anadolu","A","Frig kaya anıtı ve kaya yerleşimi."],
+["Kerkenes","Yozgat","İç Anadolu","A","7 km surla çevrili dev Demir Çağı kenti."],
+["Göreme ve yeraltı kentleri","Nevşehir","İç Anadolu","A","Kaya kiliseleri, Derinkuyu, Kaymaklı. UNESCO."],
+["Nikaia (İznik)","Bursa","Marmara","A","Surlar, tiyatro, göl altındaki bazilika."],
+["Prusias ad Hypium","Düzce","Karadeniz","A","Konuralp'te sağlam tiyatro ve su kemeri."],
+["Hadrianopolis","Karabük","Karadeniz","A","Mozaik döşemeli kiliseler, Roma hamamı."],
+["Amasya Kral Kaya Mezarları","Amasya","Karadeniz","A","Irmağın üstünde Pontos krallarının kaya mezarları."],
+["Hasankeyf","Batman","Güneydoğu","A","Taşınan ortaçağ kenti, mağara yerleşimi."],
+
+["Iasos","Muğla","Ege","B","Liman kenti; agora, bouleuterion, balıkçı köyü."],
+["Lagina","Muğla","Ege","B","Hekate kutsal alanı, kabartmalı friz."],
+["Halikarnassos (Bodrum)","Muğla","Ege","B","Mausoleum'un temeli ve antik tiyatro."],
+["Pınara","Muğla","Ege","B","Petek gibi delikli kaya yüzü, sessiz orman."],
+["Sidyma","Muğla","Ege","B","Köyün içine karışmış Lykia mezarları."],
+["Kadyanda","Muğla","Ege","B","Ormanda stadyum ve tiyatro, Fethiye manzarası."],
+["Oinoanda","Muğla","Ege","B","Dünyanın en uzun felsefe yazıtının bulunduğu kent."],
+["Alexandria Troas","Çanakkale","Marmara","B","Herodes Atticus hamamı ve geniş liman kenti."],
+["Apollon Smintheion","Çanakkale","Marmara","B","Fare tanrısına adanmış tapınak, İlyada kabartmaları."],
+["Parion","Çanakkale","Marmara","B","Süregelen kazı, nekropol ve tiyatro."],
+["Antandros","Balıkesir","Marmara","B","Deniz manzaralı Roma villası ve mozaikleri."],
+["Kyzikos","Balıkesir","Marmara","B","Hadrian Tapınağı'nın dev sütun parçaları."],
+["Tralleis","Aydın","Ege","B","Üç Gözler kemerleri, kent merkezine yakın."],
+["Alabanda","Aydın","Ege","B","Bouleuterion ve Apollon Tapınağı."],
+["Alinda","Aydın","Ege","B","Üç katlı çarşı binası, Karia kalesi."],
+["Tripolis","Denizli","Ege","B","Hızlı ilerleyen kazı, sütunlu cadde ve kilise."],
+["Colossae","Denizli","Ege","B","Kazılmamış höyük; Kolose Mektubu'nun kenti."],
+["Aigai","Manisa","Ege","B","Dağda üç katlı agora binası."],
+["Thyateira","Manisa","Ege","B","Akhisar merkezinde Yedi Kilise'den biri."],
+["Erythrai","İzmir","Ege","B","Çeşme yakınında tiyatro ve akropol."],
+["Phokaia","İzmir","Ege","B","Marsilya'yı kuran kent; kaya tapınağı ve Taş Kule."],
+["Notion","İzmir","Ege","B","Kıyıda Athena Tapınağı, Klaros'un limanı."],
+["Blaundos","Uşak","Ege","B","Kanyonla çevrili yarımadada tapınak ve kapı."],
+["Sebaste","Uşak","Ege","B","Sütunlu cadde ve mozaikli bazilika."],
+["Amorium","Afyonkarahisar","İç Anadolu","B","Bizans'ın ikinci büyük kenti, sürekli kazı."],
+["Rhodiapolis","Antalya","Akdeniz","B","Opramoas'ın yazıtlı anıt mezarı."],
+["Adada","Isparta","Akdeniz","B","Çam ormanında ayakta duran tapınaklar."],
+["Ariassos","Antalya","Akdeniz","B","Yol üstünde anıtsal 'Şeref Kapısı'."],
+["Lyrbe (Seleukeia)","Antalya","Akdeniz","B","Ormanın içinde şaşırtıcı derecede ayakta agora."],
+["Simena ve Kekova","Antalya","Akdeniz","B","Batık kent ve kale, tekneyle ulaşım."],
+["Kanlıdivane","Mersin","Akdeniz","B","90 m derinliğinde obruk ve kabartmalar."],
+["Anemurium","Mersin","Akdeniz","B","Sahile inen dev nekropol ve hamamlar."],
+["Korykos ve Kızkalesi","Mersin","Akdeniz","B","Denizin içinde ve karada iki kale."],
+["Soli Pompeiopolis","Mersin","Akdeniz","B","Mezitli'de sütunlu limana giden cadde."],
+["Kastabala","Osmaniye","Akdeniz","B","Kale eteğinde sütunlu cadde ve tiyatro."],
+["Misis (Mopsuestia)","Adana","Akdeniz","B","Nuh'un Gemisi mozaiği ve Roma köprüsü."],
+["Magarsus","Adana","Akdeniz","B","Karataş'ta deniz kıyısında tiyatro."],
+["Germanikeia","Kahramanmaraş","Akdeniz","B","Kent içinde çıkan geç Roma villa mozaikleri."],
+["Sogmatar","Şanlıurfa","Güneydoğu","B","Ay tanrısı Sin'e adanmış kaya kabartmaları."],
+["Şuayb Şehri","Şanlıurfa","Güneydoğu","B","Kayaya oyulmuş geniş yeraltı yerleşimi."],
+["Nusaybin (Mor Yakup)","Mardin","Güneydoğu","B","4. yüzyıl kilisesi ve okul kalıntısı."],
+["Dülük (Doliche)","Gaziantep","Güneydoğu","B","Mithras mağarası ve taş ocakları."],
+["Karkamış","Gaziantep","Güneydoğu","B","Sınır hattındaki Geç Hitit başkenti, izinli ziyaret."],
+["Ayanis","Van","Doğu","B","Van Gölü'ne bakan Urartu kalesi ve tapınağı."],
+["Altıntepe","Erzincan","Doğu","B","Urartu kalesi, apadana ve mezar odası."],
+["Harput","Elazığ","Doğu","B","Kale, Ulu Cami ve süregelen kazılar."],
+["Ahlat","Bitlis","Doğu","B","Selçuklu mezar taşları ve Eski Şehir kazısı."],
+["Pessinus","Eskişehir","İç Anadolu","B","Kybele kutsal alanı ve kanal-agora."],
+["Juliopolis","Ankara","İç Anadolu","B","Nallıhan'da geniş Roma nekropolü."],
+["Ankara Roma Kalıntıları","Ankara","İç Anadolu","B","Augustus Tapınağı, Roma Hamamı, sütun."],
+["Kilistra","Konya","İç Anadolu","B","Kayaya oyulmuş erken Hristiyan yerleşimi."],
+["Binbirkilise","Karaman","İç Anadolu","B","Karadağ eteklerinde onlarca Bizans kilisesi."],
+["Sobesos","Nevşehir","İç Anadolu","B","Mozaikli Roma villası ve hamam."],
+["Tyana","Niğde","İç Anadolu","B","Roma su kemeri ve havuzlu kutsal alan."],
+["Şapinuva","Çorum","İç Anadolu","B","Hitit'in ikinci merkezi, tablet arşivi."],
+["Sebastopolis","Tokat","Karadeniz","B","Sulusaray'da hamam ve mozaikler."],
+["Komana Pontika","Tokat","Karadeniz","B","Tanrıça Ma'nın kutsal alanı, aktif kazı."],
+["Pompeiopolis","Kastamonu","Karadeniz","B","Paphlagonia başkenti, Roma villası."],
+["Tios (Filyos)","Zonguldak","Karadeniz","B","Deniz kenarında tiyatro ve kale."],
+["Amastris (Amasra)","Bartın","Karadeniz","B","Bizans surları, Kuşkayası yol anıtı."],
+["Sinope","Sinop","Karadeniz","B","Balatlar yapı topluluğu ve kale."],
+["Satala","Gümüşhane","Karadeniz","B","Roma lejyon kampı ve su kemeri."],
+["Bithynion (Bolu)","Bolu","Karadeniz","B","Antinous'un doğduğu kent, kent içi kalıntılar."],
+["Perinthos","Tekirdağ","Marmara","B","Marmaraereğlisi'nde liman kenti kalıntıları."],
+["Ainos (Enez)","Edirne","Marmara","B","Kale, Ayasofya kilisesi ve nekropol."],
+["Apameia Myrleia","Bursa","Marmara","B","Mudanya kıyısında Roma kenti."],
+
+["Klazomenai","İzmir","Ege","C","Antik zeytinyağı işliği; kalıntılar sınırlı."],
+["Kolophon","İzmir","Ege","C","Ağaçlar altında dağınık temel izleri."],
+["Larisa (Buruncuk)","İzmir","Ege","C","Aiol kalesi; ulaşım ve iz zor."],
+["Yumuktepe","Mersin","Akdeniz","C","9 bin yıllık höyük; sunum sınırlı."],
+["Çayönü","Diyarbakır","Güneydoğu","C","Neolitik dönüm noktası, görsel olarak yalın."],
+["Sultantepe","Şanlıurfa","Güneydoğu","C","Asur tablet arşivinin bulunduğu höyük."],
+["Oylum Höyük","Kilis","Güneydoğu","C","Bölgenin en büyük höyüğü, uzun soluklu kazı."],
+["Kaman-Kalehöyük","Kırşehir","İç Anadolu","C","Japon kazısı ve bahçeli müze."],
+["Dorylaion (Şarhöyük)","Eskişehir","İç Anadolu","C","Kent kenarında höyük; kalıntı az."],
+["Tavium","Yozgat","İç Anadolu","C","Galat başkenti; yüzeyde iz az."],
+["Nikomedia","Kocaeli","Marmara","C","Tetrarşi başkenti; kalıntılar kent altında."],
+["Heraion Teikhos","Tekirdağ","Marmara","C","Trakya kalesi, sağlık yapısı kazısı."],
+["Bathonea","İstanbul","Marmara","C","Küçükçekmece Gölü kıyısında liman kalıntıları."],
+["Amisos","Samsun","Karadeniz","C","Tepede tümülüsler; buluntular müzede."]
+];
+
+const TIERS=[
+ ["S","Kaçırılmaz","Tek başına yola çıkmaya değer"],
+ ["A","Öncelikli","Rotaya mutlaka eklenmeli"],
+ ["B","Yakınsan uğra","Sapmaya değer, yarım gün"],
+ ["C","Tamamlayıcı","Az kalıntı, çok bağlam"]
+];
+const KEY="antikkent.sicil.v1";
+const slug=s=>s.toLowerCase().replace(/[ıİ]/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const SITES=D.map(([name,il,reg,tier,note])=>({id:slug(name),name,il,reg,tier,note}));
+const REGIONS=[...new Set(SITES.map(s=>s.reg))];
+
+let done=new Set(), fTier="*", fReg="*", q="";
+
+/* ---- storage: üç kademeli yedek ---- */
+let mode="bellek";
+async function readStore(){
+  if(window.storage&&window.storage.get){
+    try{const r=await window.storage.get(KEY); mode="cihaz"; if(r&&r.value)return r.value;}
+    catch(e){ if(String(e).includes("not found")||String(e).includes("Key")) {mode="cihaz";return null;} }
+  }
+  try{const v=localStorage.getItem(KEY); if(v!==null||localStorage){mode="tarayıcı";return v;}}catch(e){}
+  return null;
+}
+async function writeStore(val){
+  if(mode==="cihaz"&&window.storage&&window.storage.set){
+    try{ await window.storage.set(KEY,val); return true; }catch(e){ mode="tarayıcı"; }
+  }
+  try{ localStorage.setItem(KEY,val); mode="tarayıcı"; return true; }catch(e){}
+  mode="bellek"; return false;
+}
+async function load(){
+  const v=await readStore();
+  if(v){ try{ done=new Set(JSON.parse(v)); }catch(e){} }
+  render(); flagMode();
+}
+let t;
+async function save(){
+  const ok=await writeStore(JSON.stringify([...done]));
+  const el=document.getElementById("saved");
+  el.textContent = ok ? "kaydedildi" : "yalnız bu oturumda";
+  el.classList.add("on"); clearTimeout(t); t=setTimeout(()=>el.classList.remove("on"),1600);
+  flagMode();
+}
+function flagMode(){
+  const n=document.getElementById("mode");
+  n.textContent = mode==="bellek" ? "Kayıt kapalı — dosyayı indirip tarayıcıda açarsan işaretler kalıcı olur."
+    : mode==="tarayıcı" ? "İşaretler bu tarayıcıda saklanıyor." : "İşaretler cihazda saklanıyor.";
+}
+
+/* ---- chips ---- */
+function chips(){
+  const tc=document.getElementById("tierChips"), rc=document.getElementById("regChips");
+  const mk=(label,val,cur,fn)=>{const b=document.createElement("button");b.className="chip";b.textContent=label;
+    b.setAttribute("aria-pressed",val===cur);b.onclick=()=>fn(val);return b;};
+  tc.innerHTML="";rc.innerHTML="";
+  tc.append(mk("Tümü","*",fTier,v=>{fTier=v;render();}));
+  TIERS.forEach(([k])=>tc.append(mk("Tabaka "+k,k,fTier,v=>{fTier=v;render();})));
+  tc.append(mk("Kalanlar","!",fTier,v=>{fTier=v;render();}));
+  rc.append(mk("Her bölge","*",fReg,v=>{fReg=v;render();}));
+  REGIONS.forEach(r=>rc.append(mk(r,r,fReg,v=>{fReg=v;render();})));
+}
+
+/* ---- render ---- */
+function render(){
+  chips();
+  const list=document.getElementById("list"); list.innerHTML="";
+  const qq=q.trim().toLowerCase();
+  const match=s=>{
+    if(fReg!=="*"&&s.reg!==fReg)return false;
+    if(fTier==="!"&&done.has(s.id))return false;
+    if(fTier!=="*"&&fTier!=="!"&&s.tier!==fTier)return false;
+    if(qq&&!(s.name+" "+s.il+" "+s.note).toLowerCase().includes(qq))return false;
+    return true;
+  };
+  let shown=0;
+  TIERS.forEach(([k,title,sub])=>{
+    const rows=SITES.filter(s=>s.tier===k&&match(s));
+    if(!rows.length)return;
+    shown+=rows.length;
+    const sec=document.createElement("section");sec.className="tier";sec.dataset.k=k;
+    const d=rows.filter(s=>done.has(s.id)).length;
+    sec.innerHTML=`<div class="tier-hd"><span class="tier-k">${k}</span><span class="tier-t">${title}</span>
+      <span class="tier-c">${d}/${rows.length}</span></div>
+      <p class="meta" style="margin:5px 0 2px">${sub}</p>`;
+    rows.forEach(s=>{
+      const row=document.createElement("div");
+      row.className="site"+(done.has(s.id)?" done":"");
+      const url="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(s.name.replace(/\s*\(.*?\)/,"")+" "+s.il);
+      row.innerHTML=`<button class="box" aria-label="${s.name} ziyaret edildi" aria-pressed="${done.has(s.id)}"></button>
+        <div><div class="name">${s.name}</div>
+        <div class="meta">${s.il} · ${s.reg}</div>
+        <div class="note">${s.note}</div></div>
+        <a class="go" href="${url}" target="_blank" rel="noopener">Harita</a>`;
+      row.querySelector(".box").onclick=()=>{done.has(s.id)?done.delete(s.id):done.add(s.id);save();render();};
+      sec.append(row);
+    });
+    list.append(sec);
+  });
+  if(!shown) list.innerHTML='<p class="empty">Bu filtreyle eşleşen kent yok. Aramayı kısalt ya da bölgeyi genişlet.</p>';
+  profile();
+}
+
+function profile(){
+  const box=document.getElementById("layers");box.innerHTML="";
+  TIERS.forEach(([k,title])=>{
+    const all=SITES.filter(s=>s.tier===k), d=all.filter(s=>done.has(s.id)).length;
+    const row=document.createElement("div");row.className="layer";
+    row.innerHTML=`<span class="layer-k">${k}</span><span class="layer-bar"><i style="width:${all.length?d/all.length*100:0}%"></i></span><span class="layer-n">${d}/${all.length}</span>`;
+    box.append(row);
+  });
+  const pct=Math.round(done.size/SITES.length*100);
+  document.getElementById("pct").textContent="%"+pct;
+  document.getElementById("stat").textContent=`${done.size} / ${SITES.length} kent`;
+}
+
+/* ---- actions ---- */
+document.getElementById("q").oninput=e=>{q=e.target.value;render();};
+document.getElementById("reset").onclick=()=>{
+  if(!confirm("Tüm işaretler silinsin mi?"))return;
+  done=new Set();save();render();
+};
+document.getElementById("copy").onclick=async()=>{
+  const txt=TIERS.map(([k,t])=>`## ${k} — ${t}\n`+SITES.filter(s=>s.tier===k)
+    .map(s=>`${done.has(s.id)?"[x]":"[ ]"} ${s.name} (${s.il})`).join("\n")).join("\n\n");
+  try{await navigator.clipboard.writeText(txt);document.getElementById("copy").textContent="Kopyalandı";
+      setTimeout(()=>document.getElementById("copy").textContent="Listeyi kopyala",1400);}
+  catch(e){alert("Kopyalanamadı. Metni elle seçmen gerekebilir.");}
+};
+
+load();
+</script>
+</body>
+</html>
